@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SmartAlert</string>
+    <string name="email">email</string>
+    <string name="login">login</string>
+    <string name="password">password</string>
+    <string name="don_t_have_an_account_tap_here_to_sign_up">Don\'t have an account? Tap here to Sign Up!</string>
+    <string name="register">register</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="already_have_an_account_tap_here_to_login">Already have an account? Tap here to Login!</string>
+    <string name="select_municipality">municipality</string>
+    <string name="municipality">municipality</string>
+    <string name="location_icon">location_icon</string>
+    <string name="choose_your_location">Select your location</string>
+    <string name="set_your_account">Set your account</string>
+</resources>

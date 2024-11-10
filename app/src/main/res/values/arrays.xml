@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="municipalities_array">
+        <item>Athens</item>
+        <item>Piraeus</item>
+        <item>Kifisia</item>
+        <item>Marousi</item>
+        <item>Glyfada</item>
+        <item>Chalandri</item>
+        <item>Peristeri</item>
+        <item>Nea Smyrni</item>
+        <item>Voula</item>
+        <item>Moschato-Tavros</item>
+        <item>Ilioupoli</item>
+        <item>Kallithea</item>
+        <item>Agios Dimitrios</item>
+        <item>Agia Paraskevi</item>
+        <item>Aigaleo</item>
+        <item>Keratsini-Drapetsona</item>
+        <item>Elliniko-Argyroupoli</item>
+        <item>Palaio Faliro</item>
+        <item>Alimos</item>
+        <item>Zografou</item>
+        <item>Penteli</item>
+        <item>Agioi Anargyroi-Kamatero</item>
+        <item>Megara</item>
+        <item>Spata-Artemida</item>
+        <item>Lavreotiki</item>
+        <item>Saronikos</item>
+        <item>Rafina-Pikermi</item>
+        <item>Markopoulo Mesogaias</item>
+        <item>Kropia</item>
+        <item>Elefsina</item>
+        <item>Vari-Voula-Vouliagmeni</item>
+        <item>Fyli</item>
+        <item>Acharnes</item>
+        <item>Dionysos</item>
+        <item>Mandra-Eidyllia</item>
+        <item>Oropos</item>
+    </string-array>
+</resources>
