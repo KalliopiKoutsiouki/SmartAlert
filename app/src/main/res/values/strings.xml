@@ -1,15 +1,63 @@
 <resources>
     <string name="app_name">SmartAlert</string>
-    <string name="email">email</string>
-    <string name="login">login</string>
-    <string name="password">password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
     <string name="don_t_have_an_account_tap_here_to_sign_up">Don\'t have an account? Tap here to Sign Up!</string>
-    <string name="register">register</string>
-    <string name="confirm_password">confirm password</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account_tap_here_to_login">Already have an account? Tap here to Login!</string>
-    <string name="select_municipality">municipality</string>
-    <string name="municipality">municipality</string>
+    <string name="select_municipality">Municipality</string>
+    <string name="municipality">Municipality</string>
     <string name="location_icon">location_icon</string>
     <string name="choose_your_location">Select your location</string>
     <string name="set_your_account">Set your account</string>
+    <string name="refresh_list">Refresh List</string>
+    <string name="event_type">Event Type</string>
+    <string name="location">Location</string>
+    <string name="alert">Alert</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="alert_for">Alert For</string>
+    <string name="earthquake">Earthquake</string>
+    <string name="tornado">Tornado</string>
+    <string name="flood">Flood</string>
+    <string name="fire">Fire</string>
+    <string name="metrics">Metrics</string>
+
+    <!--Attach an image message-->
+    <string name="attach_image_title">Attach Image</string>
+    <string name="attach_image_message">Would you like to attach an image to this event report?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="no_user_is_logged_in">No user is logged in</string>
+    <string name="no_users_match_this_location">No users match this location.</string>
+    <string name="failed_to_reject_alert">Failed to reject alert</string>
+    <string name="alert_rejected_for">"Alert rejected for "</string>
+    <string name="alert_sent_for">"Alert sent for "</string>
+    <string name="failed_to_send_alert">Failed to send alert</string>
+    <string name="error_fetching_users">Error fetching users</string>
+    <string name="error_fetching_events">Error fetching events</string>
+    <string name="email_is_required">Email is required.</string>
+    <string name="password_is_required">Password is required.</string>
+    <string name="welcome_civil_protection">Welcome, Civil Protection</string>
+    <string name="login_successful">Login Successful</string>
+    <string name="user_role_not_found">User role not found.</string>
+    <string name="authentication_failed">Authentication failed.</string>
+    <string name="location_permission_denied_cannot_proceed_with_event_report">Location permission denied. Cannot proceed with event report.</string>
+    <string name="camera_permission_denied">Camera permission denied</string>
+    <string name="unable_to_get_location">Unable to get location</string>
+    <string name="event_report_sent_successfully">Event report sent successfully</string>
+    <string name="failed_to_send_event_report">Failed to send event report</string>
+    <string name="error">"Error: "</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="please_enter_your_password">Please enter your password</string>
+    <string name="please_confirm_your_password">Please confirm your password</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="account_created_successfully">Account created successfully.</string>
+    <string name="account_already_exists">Account already exists.</string>
+    <string name="home">Home</string>
+    <string name="please_select_at_least_two_events">Please select at least two events</string>
+
+
 </resources>

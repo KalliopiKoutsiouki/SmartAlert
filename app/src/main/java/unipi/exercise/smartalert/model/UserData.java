@@ -6,7 +6,15 @@ public class UserData {
 
     private GeoPoint homeLocation;
     private String email;
-    private Role role;
+    private String role;
+    private String deviceToken;
+
+    public UserData(GeoPoint homeLocation, String email, String role, String deviceToken) {
+        this.homeLocation = homeLocation;
+        this.email = email;
+        this.role = role;
+        this.deviceToken = deviceToken;
+    }
 
     public GeoPoint getHomeLocation() {
         return homeLocation;
@@ -24,11 +32,19 @@ public class UserData {
         this.email = email;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

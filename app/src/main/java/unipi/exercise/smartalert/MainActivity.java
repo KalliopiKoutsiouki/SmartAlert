@@ -88,14 +88,14 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getUserLocationFromFusedLocationClientAndCreateEvent();
             } else {
-                Toast.makeText(this, "Location permission denied. Cannot proceed with event report.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.location_permission_denied_cannot_proceed_with_event_report, Toast.LENGTH_SHORT).show();
             }
         }
         if (requestCode == CAMERA_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.camera_permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         createEventReport(this.eventType);
                     } else {
                         Log.e("Location error", "Unable to get location.");
-                        Toast.makeText(MainActivity.this, "Unable to get location", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.unable_to_get_location, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -135,18 +135,19 @@ public class MainActivity extends AppCompatActivity {
                 eventReport.setTimestamp(timestamp);
 
                 new AlertDialog.Builder(this)
-                        .setTitle("Attach Image")
-                        .setMessage("Would you like to attach an image to this event report?")
-                        .setPositiveButton("Yes", (dialog, which) -> {
+                        .setTitle(getString(R.string.attach_image_title))
+                        .setMessage(getString(R.string.attach_image_message))
+                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                             currentEventReport = eventReport;
                             checkCameraPermission();
                         })
-                        .setNegativeButton("No", (dialog, which) -> sendEventReport(eventReport))
+                        .setNegativeButton(getString(R.string.no), (dialog, which) -> sendEventReport(eventReport))
                         .show();
             }
         } else {
             Log.e("Unauthorized User", "No user is currently logged in.");
-            Toast.makeText(MainActivity.this, "No user is logged in", Toast.LENGTH_SHORT).show();
+            String noUserIsLoggedIn = getString(R.string.no_user_is_logged_in);
+            Toast.makeText(MainActivity.this, noUserIsLoggedIn, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -193,15 +194,15 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Log.d("Event-Report", "Event Report Created: " + eventReport.toString());
-                    Toast.makeText(MainActivity.this, "Event report sent successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.event_report_sent_successfully, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Failed to send event report", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.failed_to_send_event_report, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, getString(R.string.error) + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -23,9 +23,43 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        kal {
+            dimension "environment"
+            versionNameSuffix "-kal"
+        }
+
+        pap {
+            dimension "environment"
+            versionNameSuffix "-pap"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+android.applicationVariants.configureEach { variant ->
+    def flavorName = variant.flavorName
+    def outputDir = variant.outputs.first().outputFile.parent
+
+    tasks.configureEach { task ->
+        if (task.name == "process${variant.name.capitalize()}GoogleServices") {
+            task.doFirst {
+                copy {
+                    from "$rootDir/app"
+                    include "google-services-${flavorName}.json"
+                    into "$rootDir/app"
+                    rename "google-services-${flavorName}.json", "google-services.json"
+                }
+            }
+        }
     }
 }
 
@@ -39,6 +73,7 @@ dependencies {
     implementation libs.firebase.firestore
     implementation libs.play.services.location
     implementation libs.recyclerview
+    implementation libs.firebase.messaging
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -46,4 +81,5 @@ dependencies {
     implementation libs.retrofit
     implementation libs.converter.gson
     implementation libs.gson
+    implementation libs.mpandroidchart
 }

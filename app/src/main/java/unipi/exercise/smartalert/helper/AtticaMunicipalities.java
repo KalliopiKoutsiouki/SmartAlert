@@ -3,6 +3,7 @@ package unipi.exercise.smartalert.helper;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AtticaMunicipalities {
@@ -46,7 +47,75 @@ public class AtticaMunicipalities {
         municipalities.put("Dionysos", new GeoPoint(38.1258, 23.8640));
         municipalities.put("Mandra-Eidyllia", new GeoPoint(38.1219, 23.4994));
         municipalities.put("Oropos", new GeoPoint(38.2975, 23.7485));
+        municipalities.put("Kalamata", new GeoPoint(30.7178, -64.006));
+        municipalities.put("Pyrgos", new GeoPoint(22.6234403, 114.019));
 
         return municipalities;
+    }
+
+    public static Map<String, String> getEnglishToGreekMap() {
+        Map<String, String> greekTranslations = new HashMap<>();
+
+        greekTranslations.put("Athens", "Αθήνα");
+        greekTranslations.put("Piraeus", "Πειραιάς");
+        greekTranslations.put("Kifisia", "Κηφισιά");
+        greekTranslations.put("Marousi", "Μαρούσι");
+        greekTranslations.put("Glyfada", "Γλυφάδα");
+        greekTranslations.put("Chalandri", "Χαλάνδρι");
+        greekTranslations.put("Peristeri", "Περιστέρι");
+        greekTranslations.put("Nea Smyrni", "Νέα Σμύρνη");
+        greekTranslations.put("Voula", "Βούλα");
+        greekTranslations.put("Moschato-Tavros", "Μοσχάτο-Ταύρος");
+        greekTranslations.put("Ilioupoli", "Ηλιούπολη");
+        greekTranslations.put("Kallithea", "Καλλιθέα");
+        greekTranslations.put("Agios Dimitrios", "Άγιος Δημήτριος");
+        greekTranslations.put("Agia Paraskevi", "Αγία Παρασκευή");
+        greekTranslations.put("Aigaleo", "Αιγάλεω");
+        greekTranslations.put("Keratsini-Drapetsona", "Κερατσίνι-Δραπετσώνα");
+        greekTranslations.put("Elliniko-Argyroupoli", "Ελληνικό-Αργυρούπολη");
+        greekTranslations.put("Palaio Faliro", "Παλαιό Φάληρο");
+        greekTranslations.put("Alimos", "Άλιμος");
+        greekTranslations.put("Zografou", "Ζωγράφου");
+        greekTranslations.put("Penteli", "Πεντέλη");
+        greekTranslations.put("Agioi Anargyroi-Kamatero", "Άγιοι Ανάργυροι-Καματερό");
+        greekTranslations.put("Megara", "Μέγαρα");
+        greekTranslations.put("Spata-Artemida", "Σπάτα-Αρτέμιδα");
+        greekTranslations.put("Lavreotiki", "Λαυρεωτική");
+        greekTranslations.put("Saronikos", "Σαρωνικός");
+        greekTranslations.put("Rafina-Pikermi", "Ραφήνα-Πικέρμι");
+        greekTranslations.put("Markopoulo Mesogaias", "Μαρκόπουλο Μεσογαίας");
+        greekTranslations.put("Kropia", "Κρωπία");
+        greekTranslations.put("Elefsina", "Ελευσίνα");
+        greekTranslations.put("Vari-Voula-Vouliagmeni", "Βάρη-Βούλα-Βουλιαγμένη");
+        greekTranslations.put("Fyli", "Φυλή");
+        greekTranslations.put("Acharnes", "Αχαρνές");
+        greekTranslations.put("Dionysos", "Διόνυσος");
+        greekTranslations.put("Mandra-Eidyllia", "Μάνδρα-Ειδυλλία");
+        greekTranslations.put("Oropos", "Ωρωπός");
+        greekTranslations.put("Kalamata", "Καλαμάτα");
+        greekTranslations.put("Pyrgos", "Πύργος");
+        greekTranslations.put("Woodland Area", "Δασική Περιοχή");
+
+        return greekTranslations;
+    }
+
+    public static Map<String, String> getGreekToEnglishMap() {
+        Map<String, String> englishTranslations = new HashMap<>();
+
+        getEnglishToGreekMap().forEach((english, greek) -> englishTranslations.put(greek, english));
+
+        return englishTranslations;
+    }
+
+    public static String translateToGreek(String englishName) {
+        return getEnglishToGreekMap().getOrDefault(englishName, englishName); // Return original if no translation exists
+    }
+
+    public static String translateToEnglish(String greekName) {
+        return getGreekToEnglishMap().getOrDefault(greekName, greekName); // Return original if no translation exists
+    }
+
+    public static boolean isSystemLanguageGreek() {
+        return Locale.getDefault().getLanguage().equals("el");
     }
 }

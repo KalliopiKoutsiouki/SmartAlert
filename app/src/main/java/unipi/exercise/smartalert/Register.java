@@ -28,8 +28,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import unipi.exercise.smartalert.helper.AtticaMunicipalities;
@@ -66,12 +69,24 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         municipalitySpinner = findViewById(R.id.municipality_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.municipalities_array, R.layout.spinner_item_layout);
+
+        List<String> municipalities = new ArrayList<>();
+        if (AtticaMunicipalities.isSystemLanguageGreek()) {
+            // Add Greek translations of the municipalities
+            for (String municipality : AtticaMunicipalities.getMunicipalitiesMap().keySet()) {
+                municipalities.add(AtticaMunicipalities.translateToGreek(municipality));
+            }
+        } else {
+            // Use the original municipality names
+            municipalities.addAll(AtticaMunicipalities.getMunicipalitiesMap().keySet());
+        }
+
+        // Create the adapter with the dynamically generated list
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_layout, municipalities);
         adapter.setDropDownViewResource(R.layout.spinner_item_layout);
+
+        // Set the adapter to the spinner
         municipalitySpinner.setAdapter(adapter);
-
-
 
         // Initialize Firebase authentication
         mAuth = FirebaseAuth.getInstance();
@@ -98,25 +113,25 @@ public class Register extends AppCompatActivity {
             String confirmPassword = String.valueOf(editTextConfirmPassword.getText());
 
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(Register.this, "Please enter your email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register.this, R.string.please_enter_your_email, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 return;
             }
 
             if (TextUtils.isEmpty(password)) {
-                Toast.makeText(Register.this, "Please enter your password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register.this, R.string.please_enter_your_password, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 return;
             }
 
             if (TextUtils.isEmpty(confirmPassword)) {
-                Toast.makeText(Register.this, "Please confirm your password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register.this, R.string.please_confirm_your_password, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 return;
             }
 
             if (!password.equals(confirmPassword)) {
-                Toast.makeText(Register.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Register.this, R.string.passwords_do_not_match, Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
                 return;
             }
@@ -139,49 +154,62 @@ public class Register extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String uid = user.getUid();
 
-                            // Store user data in Firestore with role
-                            Map<String, Object> userData = new HashMap<>();
-                            userData.put("email", email);
-                            userData.put("role", role);
-                            userData.put("coordinates", userCoordinates);
+                            // Retrieve the FCM token for this user
+                            FirebaseMessaging.getInstance().getToken()
+                                    .addOnCompleteListener(tokenTask -> {
+                                        if (tokenTask.isSuccessful()) {
+                                            String token = tokenTask.getResult();
+                                            Log.d("FCM Token", "Retrieved FCM Token: " + token);
 
-                            db.collection("users").document(uid)
-                                    .set(userData)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d("Success","User " + email +  " with role: " + role + " added to db.");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.e("Failure", "Failed to insert user " + email +  " with role: " + role + ",to db.");
-                                            // rollback for firebase authentication
-                                            user.delete()
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            // Store user data in Firestore with role, coordinates, and token
+                                            Map<String, Object> userData = new HashMap<>();
+                                            userData.put("email", email);
+                                            userData.put("role", role);
+                                            userData.put("coordinates", userCoordinates);
+                                            userData.put("device_token", token);  // Save the FCM token
+
+                                            // Save user data to Firestore
+                                            db.collection("users").document(uid)
+                                                    .set(userData)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
-                                                        public void onComplete(@NonNull Task<Void> deleteTask) {
-                                                            if (deleteTask.isSuccessful()) {
-                                                                Log.d("rollback firebase","Could not save user role, rollback authentication registration");
-                                                            } else {
-                                                                Log.e("rollback failed", "Even your rollback failed, you loser!");
-                                                            }
+                                                        public void onSuccess(Void aVoid) {
+                                                            Log.d("Success", "User " + email + " with role: " + role + " and token added to db.");
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.e("Failure", "Failed to insert user " + email + " with role: " + role + " to db.");
+                                                            // Rollback Firebase authentication if saving to Firestore fails
+                                                            user.delete()
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> deleteTask) {
+                                                                            if (deleteTask.isSuccessful()) {
+                                                                                Log.d("Rollback", "Could not save user role, rollback authentication registration");
+                                                                            } else {
+                                                                                Log.e("Rollback Failed", "Even your rollback failed!");
+                                                                            }
+                                                                        }
+                                                                    });
                                                         }
                                                     });
+                                        } else {
+                                            // Handle token retrieval failure
+                                            Log.e("FCM Token Error", "Failed to retrieve FCM token");
                                         }
                                     });
 
-                            Toast.makeText(Register.this, "Account created successfully.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, R.string.account_created_successfully, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(Register.this, "Account already exists.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, R.string.account_already_exists, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 }

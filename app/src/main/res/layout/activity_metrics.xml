@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar at the top -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/metricsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/mainColor"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:clipToPadding="true"
+        android:scrollbars="vertical"
+        android:layout_marginTop="40dp"/>
+
+    <LinearLayout
+        android:id="@+id/filterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/metricsToolbar"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <CheckBox
+            android:id="@+id/filterFire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/ic_fire_icon" />
+
+        <CheckBox
+            android:id="@+id/filterFlood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/ic_flood_icon" />
+
+        <CheckBox
+            android:id="@+id/filterEarthquake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/ic_earthquake_icon" />
+
+        <CheckBox
+            android:id="@+id/filterTornado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/ic_tornado_icon" />
+    </LinearLayout>
+
+    <!-- BarChart below the toolbar -->
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/groupedBarChart"
+        android:layout_below="@id/filterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_margin="16dp" />
+
+    <TextView
+        android:id="@+id/filtersErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/please_select_at_least_two_events"
+        android:layout_below="@id/filterContainer"
+        android:textColor="#FF0000"
+        android:layout_centerInParent="true"/>
+
+
+</RelativeLayout>

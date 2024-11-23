@@ -25,10 +25,10 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="201dp"
         android:layout_marginEnd="72dp"
-        android:backgroundTint="#BD5757"
+        android:backgroundTint="@color/fire"
         android:drawableTop="@drawable/ic_fire_icon"
         android:gravity="center"
-        android:text="Fire"
+        android:text="@string/fire"
         android:textColor="#FFFFFF" />
 
     <Button
@@ -39,10 +39,10 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="72dp"
-        android:backgroundTint="#5EAACD"
+        android:backgroundTint="@color/flood"
         android:drawableTop="@drawable/ic_flood_icon"
         android:gravity="center"
-        android:text="Flood"
+        android:text="@string/flood"
         android:textColor="#FFFFFF" />
 
     <Button
@@ -53,10 +53,10 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="76dp"
-        android:backgroundTint="#6F7073"
+        android:backgroundTint="@color/tornado"
         android:drawableTop="@drawable/ic_tornado_icon"
         android:gravity="center"
-        android:text="Tornado"
+        android:text="@string/tornado"
         android:textColor="#FFFFFF" />
 
     <Button
@@ -67,10 +67,10 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="75dp"
-        android:backgroundTint="#917A65"
+        android:backgroundTint="@color/earthquake"
         android:drawableTop="@drawable/ic_earthquake_icon"
         android:gravity="center"
-        android:text="Earthquake"
+        android:text="@string/earthquake"
         android:textColor="#FFFFFF" />
 
     <TextView
@@ -83,7 +83,7 @@
         android:layout_marginTop="90dp"
         android:layout_marginEnd="246dp"
         android:layout_marginBottom="593dp"
-        android:text="ALERT FOR"
+        android:text="@string/alert_for"
         android:textColor="#0F1930"
         android:textSize="20sp"
         android:textStyle="bold" />

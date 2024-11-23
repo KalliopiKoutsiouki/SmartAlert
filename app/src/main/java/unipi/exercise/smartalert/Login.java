@@ -79,81 +79,20 @@ public class Login extends AppCompatActivity {
         });
     }
 
-//    private void loginUser() {
-//        String email = editTextEmail.getText().toString().trim();
-//        String password = editTextPassword.getText().toString().trim();
-//        progressBar.setVisibility(View.VISIBLE);
-//
-//        if (TextUtils.isEmpty(email)) {
-//            editTextEmail.setError("Email is required.");
-//            editTextEmail.requestFocus();
-//            progressBar.setVisibility(View.GONE);
-//            return;
-//        }
-//
-//        if (TextUtils.isEmpty(password)) {
-//            editTextPassword.setError("Password is required.");
-//            editTextPassword.requestFocus();
-//            progressBar.setVisibility(View.GONE);
-//            return;
-//        }
-//
-//        // Authenticate the user
-//        mAuth.signInWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        progressBar.setVisibility(View.GONE);
-//                        if (task.isSuccessful()) {
-//                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                            String userEmail = mAuth.getCurrentUser().getEmail();
-//                            db.collection("users").document(userEmail).get()
-//                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                                        @Override
-//                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                                            if (task.isSuccessful() && task.getResult() != null) {
-//
-//                                                DocumentSnapshot document = task.getResult();
-//                                                String role = document.getString("role");
-//
-//                                                if ("civil-protection".equals(role)) {
-//                                                    Toast.makeText(Login.this, "Welcome, Civil Protection", Toast.LENGTH_SHORT).show();
-//                                                    Intent intent = new Intent(getApplicationContext(), CivilProtectionActivity.class);
-//                                                    startActivity(intent);
-//                                                } else {
-//                                                    // Redirect to MainActivity for other roles
-//                                                    Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
-//                                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                                                    startActivity(intent);
-//                                                }
-//                                                finish();
-//                                            } else {
-//                                                // Error fetching document or role does not exist
-//                                                Toast.makeText(Login.this, "User role not found.", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        }
-//                                    });
-//                        } else {
-//                            Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
-//    }
-
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
 
         if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError("Email is required.");
+            editTextEmail.setError(getString(R.string.email_is_required));
             editTextEmail.requestFocus();
             progressBar.setVisibility(View.GONE);
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError("Password is required.");
+            editTextPassword.setError(getString(R.string.password_is_required));
             editTextPassword.requestFocus();
             progressBar.setVisibility(View.GONE);
             return;
@@ -184,7 +123,7 @@ public class Login extends AppCompatActivity {
 
                                                     if ("civil-protection".equals(role)) {
                                                         roleFound = true;
-                                                        Toast.makeText(Login.this, "Welcome, Civil Protection", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(Login.this, R.string.welcome_civil_protection, Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(getApplicationContext(), CivilProtectionActivity.class);
                                                         startActivity(intent);
                                                         break;
@@ -193,19 +132,19 @@ public class Login extends AppCompatActivity {
 
                                                 if (!roleFound) {
 
-                                                    Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Login.this, R.string.login_successful, Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                                     startActivity(intent);
                                                 }
                                                 finish();
                                             } else {
 
-                                                Toast.makeText(Login.this, "User role not found.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(Login.this, R.string.user_role_not_found, Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
                         } else {
-                            Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, R.string.authentication_failed, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

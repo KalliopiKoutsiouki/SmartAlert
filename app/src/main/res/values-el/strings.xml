@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SmartAlert</string>
+    <string name="email">Ηλεκτρονική Διεύθυνση</string>
+    <string name="login">Σύνδεση</string>
+    <string name="password">Κωδικός Πρόσβασης</string>
+    <string name="don_t_have_an_account_tap_here_to_sign_up">Δεν έχετε λογαριασμό; Πατήστε εδώ για εγγραφή!</string>
+    <string name="register">Εγγραφή</string>
+    <string name="confirm_password">Επιβεβαίωση Κωδικού</string>
+    <string name="already_have_an_account_tap_here_to_login">Έχετε ήδη λογαριασμό; Πατήστε εδώ για σύνδεση!</string>
+    <string name="select_municipality">Επιλογή Δήμου</string>
+    <string name="municipality">Δήμος</string>
+    <string name="location_icon">location_icon</string>
+    <string name="choose_your_location">Επιλέξτε την τοποθεσία σας</string>
+    <string name="set_your_account">Δημιουργήστε τον λογαριασμό σας</string>
+    <string name="refresh_list">Ανανέωση Λίστας</string>
+    <string name="event_type">Τύπος Συμβάντος</string>
+    <string name="location">Τοποθεσία</string>
+    <string name="alert">Ειδοποίηση</string>
+    <string name="dismiss">Απόρριψη</string>
+    <string name="alert_for">Ειδοποίηση για</string>
+    <string name="earthquake">Σεισμός</string>
+    <string name="tornado">Ανεμοστρόβιλος</string>
+    <string name="flood">Πλημμύρα</string>
+    <string name="fire">Φωτιά</string>
+    <string name="metrics">Στατιστικά</string>
+
+    <!--Attach an image message-->
+    <string name="attach_image_title">Επισύναψη Εικόνας</string>
+    <string name="attach_image_message">Θέλετε να επισυνάψετε μια εικόνα σε αυτήν την αναφορά συμβάντος;</string>
+    <string name="yes">Ναι</string>
+    <string name="no">Όχι</string>
+
+    <string name="no_user_is_logged_in">Δεν βρέθηκε συνδεδεμένος χρήστης</string>
+    <string name="no_users_match_this_location">Δεν υπάρχουν χρήστες που αντιστοιχούν σε αυτήν την τοποθεσία.</string>
+    <string name="failed_to_reject_alert">Αποτυχία απόρριψης ειδοποίησης</string>
+    <string name="alert_rejected_for">"Η ειδοποίηση απορρίφθηκε για "</string>
+    <string name="alert_sent_for">"Η ειδοποίηση στάλθηκε για "</string>
+    <string name="failed_to_send_alert">Αποτυχία αποστολής ειδοποίησης</string>
+    <string name="error_fetching_users">Σφάλμα κατά την ανάκτηση χρηστών</string>
+    <string name="error_fetching_events">Σφάλμα κατά την ανάκτηση συμβάντων</string>
+    <string name="email_is_required">Το email είναι υποχρεωτικό.</string>
+    <string name="password_is_required">Ο κωδικός πρόσβασης είναι υποχρεωτικός.</string>
+    <string name="welcome_civil_protection">Καλώς ήρθατε, Πολιτική Προστασία</string>
+    <string name="login_successful">Επιτυχής σύνδεση</string>
+    <string name="user_role_not_found">Ο ρόλος χρήστη δεν βρέθηκε.</string>
+    <string name="authentication_failed">Η αυθεντικοποίηση απέτυχε.</string>
+    <string name="location_permission_denied_cannot_proceed_with_event_report">Η άδεια τοποθεσίας απορρίφθηκε. Δεν μπορεί να συνεχιστεί η αναφορά συμβάντος.</string>
+    <string name="camera_permission_denied">Η άδεια κάμερας απορρίφθηκε</string>
+    <string name="unable_to_get_location">Δεν είναι δυνατή η λήψη τοποθεσίας</string>
+    <string name="event_report_sent_successfully">Η αναφορά συμβάντος στάλθηκε επιτυχώς</string>
+    <string name="failed_to_send_event_report">Αποτυχία αποστολής αναφοράς συμβάντος</string>
+    <string name="error">"Σφάλμα: "</string>
+    <string name="please_enter_your_email">Παρακαλώ εισάγετε το email σας</string>
+    <string name="please_enter_your_password">Παρακαλώ εισάγετε τον κωδικό πρόσβασής σας</string>
+    <string name="please_confirm_your_password">Παρακαλώ επιβεβαιώστε τον κωδικό πρόσβασής σας</string>
+    <string name="passwords_do_not_match">Οι κωδικοί πρόσβασης δεν ταιριάζουν</string>
+    <string name="account_created_successfully">Ο λογαριασμός δημιουργήθηκε επιτυχώς.</string>
+    <string name="account_already_exists">Ο λογαριασμός υπάρχει ήδη.</string>
+    <string name="home">Αρχική</string>
+    <string name="please_select_at_least_two_events">Παρακαλώ επιλέξτε τουλάχιστον δύο γεγονότα</string>
+
+</resources>
