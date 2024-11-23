@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "992897839565",
+    "project_id": "smartalert-11ae1",
+    "storage_bucket": "smartalert-11ae1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992897839565:android:a5db2e5903c9b41604d484",
+        "android_client_info": {
+          "package_name": "unipi.exercise.smartalert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDEBjw17IZ29TXCSKY5hSU68NZoE1UTHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
