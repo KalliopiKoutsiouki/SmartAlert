@@ -1,6 +1,5 @@
 package unipi.exercise.smartalert.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -164,13 +163,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 }
             }
         }
-        if (isLanguageGreek) {
-            List<String> translatedMunicipalities = new ArrayList<>();
-            for (String municipality : event.getMunicipalities()) {
-                translatedMunicipalities.add(AtticaMunicipalities.translateToGreek(municipality));
-            }
-            event.setMunicipalities(translatedMunicipalities);
-        }
         return filteredUsers;
     }
 
@@ -180,6 +172,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         for (UserData user : users) {
             userTokens.add(user.getDeviceToken());
         }
+
+
+
 
         EventNotification eventNotification = new EventNotification(event, userTokens);
 

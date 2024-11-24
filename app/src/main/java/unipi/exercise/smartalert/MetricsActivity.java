@@ -161,20 +161,17 @@ public class MetricsActivity extends AppCompatActivity {
 
             float groupSpace = 0.3f; // Space between groups (months)
             float barSpace = 0.05f;  // Space between bars within a group
-
+            float barWidth = (1f - groupSpace) / (float) filtersCounter - barSpace; // For 4 bar sets
+            data.setBarWidth(barWidth); // Set bar width
 
             // Group bars
             barChart.setData(data);
             if(filtersCounter>1){
                 barChart.groupBars(0f, groupSpace, barSpace);
             }
-            float barWidth = (1f - groupSpace) / (float) filtersCounter - barSpace; // For 4 bar sets
-            data.setBarWidth(barWidth); // Set bar width
 
             barChart.enableScroll();
-
             barChart.setFitBars(true);
-
             // Set X-Axis labels
             XAxis xAxis = barChart.getXAxis();
             xAxis.setGranularity(1f); // Set granularity to 1 (each group represents one month)

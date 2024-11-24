@@ -15,6 +15,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Locale;
 
 import unipi.exercise.smartalert.R;
+import unipi.exercise.smartalert.helper.AtticaMunicipalities;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -29,35 +30,64 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // This method will be called when a new message is received
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        String title = null;
+        String messageBody = null;
 
-        // Check if the message contains a notification payload
-        if (remoteMessage.getNotification() != null) {
-            String title = remoteMessage.getNotification().getTitle();
-            String messageBody = remoteMessage.getNotification().getBody();
-
-            title = translateText(title);
-            messageBody = translateMessageBody(messageBody);
-            // Handle the notification payload
-            Log.e(TAG, "Message EventNotification Body: " + messageBody);
-
-            sendNotification(title, messageBody);
-        }
-
-        // Check if the message contains data (optional)
+        // Check if the message contains data
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message Data: " + remoteMessage.getData());
 
-            // If notification payload is absent, use data payload for the notification
-            if (remoteMessage.getNotification() == null) {
-                String title = remoteMessage.getNotification().getTitle();
-                String messageBody = remoteMessage.getNotification().getBody();
+            // Extract the data fields
+            title = remoteMessage.getData().get("title");
+            String eventType = remoteMessage.getData().get("eventType");
+            String municipalities = remoteMessage.getData().get("municipalities");
 
-                title = translateText(title);
-                messageBody = translateMessageBody(messageBody);
+            if (title == null) title = "Danger!!!"; // Fallback if title is missing
 
-                sendNotification(title, messageBody);
-            }
+            // Translate title if necessary
+            title = translateText(title);
+
+            // Translate the message body dynamically
+            messageBody = buildMessageBody(eventType, municipalities);
         }
+
+        // Check if the message contains a notification payload
+        if (remoteMessage.getNotification() != null) {
+            String notificationTitle = remoteMessage.getNotification().getTitle();
+            String notificationBody = remoteMessage.getNotification().getBody();
+
+            // Fallback to notification title/body if data payload is absent
+            if (title == null) title = notificationTitle;
+            if (messageBody == null) messageBody = notificationBody;
+        }
+
+        // Send the notification
+        if (title != null && messageBody != null) {
+            sendNotification(title, messageBody);
+        }
+    }
+
+    private String buildMessageBody(String eventType, String municipalities) {
+        if (eventType == null || municipalities == null) return null;
+
+        // Split municipalities and translate each
+        String[] municipalityArray = municipalities.split(",\\s*");
+        StringBuilder translatedMunicipalities = new StringBuilder();
+        if (Locale.getDefault().getLanguage().equals("el")) {
+            for (String municipality : municipalityArray) {
+                translatedMunicipalities.append(AtticaMunicipalities.translateToGreek(municipality.trim())).append(", ");
+            }
+            // Remove trailing comma and space
+            if (translatedMunicipalities.length() > 0) {
+                translatedMunicipalities.setLength(translatedMunicipalities.length() - 2);
+            }
+        } else {
+            // If not Greek, use municipalities as is
+            translatedMunicipalities.append(String.join(", ", municipalityArray));
+        }
+        String localizedEventType = translateText(eventType);
+        // Build the message dynamically
+        return translateText("There is a ") + localizedEventType + translateText(" at ") + translatedMunicipalities;
     }
 
     // This method is used to handle the token generation process
@@ -79,21 +109,30 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     return "Υπάρχει ";
                 case " at ":
                     return " στην περιοχή ";
+                case "Fire":
+                    return "Φωτιά";
+                case "Earthquake":
+                    return "Σεισμός";
+                case "Tornado":
+                    return "Ανεμοστρόβιλος";
+                case "Flood":
+                    return "Πλημμύρα";
                 default:
-                    return text; // Return original if no translation is found
+                    return text;
+            }
+        } else {
+            switch (text) {
+                case "Φωτιά":
+                    return "Fire";
+                case "Σεισμός":
+                    return "Earthquake";
+                case "Ανεμοστρόβιλος":
+                    return "Tornado";
+                case "Πλημμύρα":
+                    return "Flood";
             }
         }
         return text; // Return original text if language is not Greek
-    }
-
-    private String translateMessageBody(String body) {
-        if (Locale.getDefault().getLanguage().equals("el")) {
-            // Replace the dynamic parts of the message
-            return body
-                    .replace("There is a ", translateText("There is a "))
-                    .replace(" at ", translateText(" at "));
-        }
-        return body;
     }
 
     private void sendNotification(String title, String messageBody) {
