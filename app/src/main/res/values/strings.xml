@@ -57,7 +57,7 @@
     <string name="account_created_successfully">Account created successfully.</string>
     <string name="account_already_exists">Account already exists.</string>
     <string name="home">Home</string>
-    <string name="please_select_at_least_two_events">Please select at least two events</string>
+    <string name="please_select_at_least_one_event">Please select at least one event</string>
 
 
 </resources>

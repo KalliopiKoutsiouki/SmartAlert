@@ -193,6 +193,13 @@ public class MetricsActivity extends AppCompatActivity {
             barChart.setData(data);
             if(filtersCounter>1){
                 barChart.groupBars(0f, groupSpace, barSpace);
+            } else {
+                data.setBarWidth(0.3f); // Make the bar wider for better visibility
+                BarDataSet barDataSet = (BarDataSet) dataSets.get(0); // Cast to BarDataSet
+                for (int i = 0; i < barDataSet.getEntryCount(); i++) {
+                    BarEntry entry = barDataSet.getEntryForIndex(i);
+                    entry.setX(entry.getX() + 0.5f); // Shift the bar to align with the start of the month
+                }
             }
 
             barChart.enableScroll();
@@ -203,6 +210,7 @@ public class MetricsActivity extends AppCompatActivity {
             xAxis.setCenterAxisLabels(true); // Center labels between groups
             xAxis.setPosition(XAxis.XAxisPosition.TOP);
             xAxis.setAxisMinimum(0f);
+            xAxis.setAxisMaximum(monthYearList.size()); // Ensure the axis is large enough for all data points
             boolean isGreek = Locale.getDefault().getLanguage().equals("el");
 
             List<String> translatedMonthYearList = new ArrayList<>();

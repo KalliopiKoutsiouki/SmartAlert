@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -219,11 +221,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             userTokens.add(user.getDeviceToken());
         }
 
-
-
-
         EventNotification eventNotification = new EventNotification(event, userTokens);
-
         Call<Void> call = RetrofitClient.getApiService().sendNotification(eventNotification);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -233,38 +231,31 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                             context,
                             context.getString(R.string.alert_sent_for) + " " + event.getEventType(),
                             Toast.LENGTH_SHORT
-                    ).show();                    Map<String, Object> pushedEventData  = new HashMap<>();
+                    ).show();
+                    Map<String, Object> pushedEventData  = new HashMap<>();
                     pushedEventData.put("event_id", event.getEventId());
-                    pushedEventData.put("event_type", event.getEventType());
+                    if(Locale.getDefault().getLanguage().equals("el")){
+                        pushedEventData.put("event_type", translateEventType(event.getEventType()));
+                    } else {
+                        pushedEventData.put("event_type", event.getEventType());
+                    }
                     pushedEventData.put("timestamp", LocalDate.now());
 
-//                    db.collection("pushed_events").document()
-//                            .set(pushedEventData)
-//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                @Override
-//                                public void onSuccess(Void unused) {
-//                                    Log.d("Success", "Pushed event with id: " + event.getEventId() + " added to db.");
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Log.e("Failure", "Failed to insert event with id: " + event.getEventId() + " to db.");
-//
-//                                }
-//                            });
-                    for (int i = 31; i <= 50; i++) {
-                        Map<String, Object> dummyEvent = new HashMap<>();
-                        dummyEvent.put("event_id", i);
-                        dummyEvent.put("event_type", "Earthquake");
-                        dummyEvent.put("timestamp", LocalDate.now().plusDays(i));
+                    db.collection("pushed_events").document()
+                            .set(pushedEventData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d("Success", "Pushed event with id: " + event.getEventId() + " added to db.");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e("Failure", "Failed to insert event with id: " + event.getEventId() + " to db.");
 
-                        db.collection("pushed_events").document()
-                                .set(dummyEvent)
-                                .addOnSuccessListener(aVoid -> Log.d("Success", "Dummy data added"))
-                                .addOnFailureListener(e -> Log.e("Failure", "Failed to add dummy data", e));
-                    }
-
+                                }
+                            });
                 } else {
                     Toast.makeText(context, R.string.failed_to_send_alert, Toast.LENGTH_SHORT).show();
                 }
@@ -275,6 +266,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String translateEventType(String eventType) {
+        switch (eventType) {
+            case "Σεισμός":
+                eventType = "Earthquake";
+                break;
+            case "Φωτιά":
+                eventType = "Fire";
+                break;
+            case "Πλημμύρα":
+                eventType = "Flood";
+                break;
+            case "Ανεμοστρόβιλος":
+                eventType = "Tornado";
+                break;
+        }
+        return eventType;
     }
 
 

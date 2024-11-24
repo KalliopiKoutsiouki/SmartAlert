@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/please_select_at_least_two_events"
+        android:text="@string/please_select_at_least_one_event"
         android:layout_below="@id/filterContainer"
         android:textColor="#FF0000"
         android:layout_centerInParent="true"/>

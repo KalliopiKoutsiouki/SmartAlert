@@ -58,6 +58,6 @@
     <string name="account_created_successfully">Ο λογαριασμός δημιουργήθηκε επιτυχώς.</string>
     <string name="account_already_exists">Ο λογαριασμός υπάρχει ήδη.</string>
     <string name="home">Αρχική</string>
-    <string name="please_select_at_least_two_events">Παρακαλώ επιλέξτε τουλάχιστον δύο γεγονότα</string>
+    <string name="please_select_at_least_one_event">Παρακαλώ επιλέξτε τουλάχιστον ένα γεγονός</string>
 
 </resources>
