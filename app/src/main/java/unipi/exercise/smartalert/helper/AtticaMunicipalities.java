@@ -6,8 +6,17 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * A utility class that provides data and operations related to municipalities in Attica and other areas.
+ * This includes geolocation data, translation between English and Greek, and checks for the system's language setting.
+ */
 public class AtticaMunicipalities {
 
+     /**
+     * Retrieves a map of municipality names to their average corresponding geolocation points.
+     *
+     * @return A {@link Map} where the key is the municipality name (in English) and the value is a {@link GeoPoint}.
+     */
     public static Map<String, GeoPoint> getMunicipalitiesMap() {
         Map<String, GeoPoint> municipalities = new HashMap<>();
 

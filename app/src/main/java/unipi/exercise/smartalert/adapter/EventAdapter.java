@@ -37,6 +37,10 @@ import unipi.exercise.smartalert.model.UserData;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Adapter class for managing and displaying a list of events in a RecyclerView.
+ * This adapter handles event notifications and user interactions such as alerting and dismissing events.
+ */
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>{
 
     private List<Event> eventList;
@@ -44,12 +48,26 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     private Context context;
     private FirebaseFirestore db;
 
+    /**
+     * Constructor for the EventAdapter.
+     *
+     * @param eventList List of events to display.
+     * @param userList List of users to process notifications.
+     * @param context Context of the activity or fragment using this adapter.
+     */
     public EventAdapter(List<Event> eventList, List<UserData> userList, Context context) {
         this.eventList = eventList;
         this.userList = userList;
         this.context = context;
     }
 
+    /**
+     * Creates and inflates the view holder for an event item.
+     *
+     * @param parent The parent view group.
+     * @param viewType The view type of the new view.
+     * @return A new EventViewHolder instance.
+     */
     @NonNull
     @Override
     public EventAdapter.EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,6 +77,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(view);
     }
 
+    /**
+     * Binds the data for a specific event to the view holder.
+     *
+     * @param holder The EventViewHolder instance.
+     * @param position The position of the event in the list.
+     */
     @Override
     public void onBindViewHolder(@NonNull EventAdapter.EventViewHolder holder, int position) {
         Event event = eventList.get(position);
@@ -104,6 +128,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         });
     }
 
+    /**
+     * Sets the icon and color for an event based on its type.
+     *
+     * @param eventIcon The ImageView where the icon will be displayed.
+     * @param eventType The type of the event (e.g., Earthquake, Flood, etc.).
+     */
     private void setEventIcon(ImageView eventIcon, String eventType) {
         int iconResId = 0;
         int iconColor = 0;
@@ -130,11 +160,22 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         eventIcon.setColorFilter(iconColor);
     }
 
+    /**
+     * Returns the total number of events in the list.
+     *
+     * @return The number of events.
+     */
     @Override
     public int getItemCount() {
         return eventList != null ? eventList.size() : 0;
     }
 
+    /**
+     * Filters the user list based on their location and the event's affected municipalities.
+     *
+     * @param event The event to filter users by.
+     * @return A list of users matching the event's location.
+     */
     private List<UserData> filterUsersByLocation(Event event) {
         List<UserData> filteredUsers = new ArrayList<>();
         Map<String, GeoPoint> municipalitiesMap = AtticaMunicipalities.getMunicipalitiesMap();
@@ -166,7 +207,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return filteredUsers;
     }
 
-    // Method to send the notification request to backend
+    /**
+     * Sends a notification request to the backend for the specified event and users.
+     *
+     * @param users The list of users to notify.
+     * @param event The event triggering the notification.
+     */
     private void sendNotificationRequest(List<UserData> users, Event event) {
         List<String> userTokens = new ArrayList<>();
         for (UserData user : users) {
@@ -248,7 +294,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         }
     }
-
+    /**
+     * Loads user data from Firestore and populates the user list.
+     */
         private void loadUserData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance(); // Initialize Firestore
         CollectionReference usersCollection = db.collection("users"); // Assuming you store users under the "users" collection

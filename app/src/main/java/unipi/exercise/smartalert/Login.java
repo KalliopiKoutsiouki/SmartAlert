@@ -25,6 +25,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * Activity for handling user login functionality.
+ * This activity authenticates users using Firebase Authentication, redirects them to appropriate activities
+ * based on their role, and provides an option to register a new account.
+ */
 public class Login extends AppCompatActivity {
 
     TextInputEditText editTextEmail, editTextPassword;
@@ -78,12 +83,16 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Handles the login process by validating user input, authenticating with Firebase,
+     * and redirecting the user to the appropriate activity based on their role.
+     */
     private void loginUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         progressBar.setVisibility(View.VISIBLE);
 
+        // Validate email input
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError(getString(R.string.email_is_required));
             editTextEmail.requestFocus();
@@ -91,6 +100,7 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+        // Validate password input
         if (TextUtils.isEmpty(password)) {
             editTextPassword.setError(getString(R.string.password_is_required));
             editTextPassword.requestFocus();
@@ -98,7 +108,7 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Authenticate the user
+        // Authenticate the user with Firebase
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -121,6 +131,7 @@ public class Login extends AppCompatActivity {
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     String role = document.getString("role");
 
+                                                    // Redirect to CivilProtectionActivity for civil-protection role
                                                     if ("civil-protection".equals(role)) {
                                                         roleFound = true;
                                                         Toast.makeText(Login.this, R.string.welcome_civil_protection, Toast.LENGTH_SHORT).show();
@@ -129,9 +140,8 @@ public class Login extends AppCompatActivity {
                                                         break;
                                                     }
                                                 }
-
+                                                // Redirect to MainActivity for non-civil-protection users
                                                 if (!roleFound) {
-
                                                     Toast.makeText(Login.this, R.string.login_successful, Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                                     startActivity(intent);

@@ -38,6 +38,11 @@ import java.util.Map;
 import unipi.exercise.smartalert.helper.AtticaMunicipalities;
 import unipi.exercise.smartalert.model.Role;
 
+/**
+ * The Register activity handles user registration for the application.
+ * It includes validation for email, password, and municipality selection, integrates with Firebase Authentication
+ * for account creation, and stores user data in Firestore.
+ */
 public class Register extends AppCompatActivity {
 
     private TextInputEditText editTextEmail, editTextPassword, editTextConfirmPassword;
@@ -70,6 +75,7 @@ public class Register extends AppCompatActivity {
 
         municipalitySpinner = findViewById(R.id.municipality_spinner);
 
+        // Populate municipality spinner with translated data
         List<String> municipalities = new ArrayList<>();
         if (AtticaMunicipalities.isSystemLanguageGreek()) {
             // Add Greek translations of the municipalities
@@ -141,6 +147,12 @@ public class Register extends AppCompatActivity {
         });
     }
 
+    /**
+     * Creates a new user account with Firebase Authentication and saves their data in Firestore.
+     *
+     * @param email    The email address provided by the user.
+     * @param password The password provided by the user.
+     */
     private void createUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

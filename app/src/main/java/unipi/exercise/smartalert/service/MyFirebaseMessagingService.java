@@ -17,6 +17,11 @@ import java.util.Locale;
 import unipi.exercise.smartalert.R;
 import unipi.exercise.smartalert.helper.AtticaMunicipalities;
 
+/**
+ * Service for handling Firebase Cloud Messaging (FCM) notifications.
+ * This service processes incoming messages, translates content dynamically based on locale,
+ * and displays notifications to the user.
+ */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FCMService";
@@ -27,7 +32,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    // This method will be called when a new message is received
+    /**
+     * Called when a new FCM message is received.
+     *
+     * @param remoteMessage The message received from FCM.
+     */
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         String title = null;
@@ -66,7 +75,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             sendNotification(title, messageBody);
         }
     }
-
+    /**
+     * Builds the message body dynamically based on the event type and municipalities.
+     *
+     * @param eventType      The type of the event (e.g., Fire, Earthquake).
+     * @param municipalities The affected municipalities as a comma-separated string.
+     * @return The formatted message body.
+     */
     private String buildMessageBody(String eventType, String municipalities) {
         if (eventType == null || municipalities == null) return null;
 
@@ -90,7 +105,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return translateText("There is a ") + localizedEventType + translateText(" at ") + translatedMunicipalities;
     }
 
-    // This method is used to handle the token generation process
+    /**
+     * Called when a new FCM token is generated for the device.
+     *
+     * @param token The new FCM token.
+     */
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
@@ -98,6 +117,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e(TAG, "New Token: " + token);
     }
 
+    /**
+     * Translates the given text based on the system's language setting.
+     *
+     * @param text The text to translate.
+     * @return The translated text, or the original text if no translation is required.
+     */
     private String translateText(String text) {
         // Check the system language
         if (Locale.getDefault().getLanguage().equals("el")) {
@@ -135,6 +160,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         return text; // Return original text if language is not Greek
     }
 
+    /**
+     * Sends a notification to the user.
+     *
+     * @param title       The notification title.
+     * @param messageBody The notification message body.
+     */
     private void sendNotification(String title, String messageBody) {
 
         createNotificationChannel();
@@ -157,6 +188,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         getNotificationManager().notify((int) System.currentTimeMillis(), notification);
     }
 
+
+    /**
+     * Creates a notification channel for Android O and above.
+     */
     private void createNotificationChannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
@@ -174,6 +209,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+
+    /**
+     * Retrieves the NotificationManager instance.
+     *
+     * @return The NotificationManager.
+     */
     private NotificationManager getNotificationManager() {
         if (mManager == null) {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

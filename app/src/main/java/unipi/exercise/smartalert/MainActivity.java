@@ -40,6 +40,11 @@ import unipi.exercise.smartalert.httpclient.RetrofitClient;
 import unipi.exercise.smartalert.model.EventReport;
 import unipi.exercise.smartalert.model.EventType;
 
+/**
+ * MainActivity handles the creation of event reports by users.
+ * It captures user location, collects event type information, and optionally attaches images to reports.
+ * Reports are then sent to the backend server via Retrofit.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int LOCATION_CODE = 6849;
@@ -81,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
         btnEarthquake.setOnClickListener(v -> getLocationWithPermissionsThenProceed(EventType.EARTHQUAKE));
     }
 
+    /**
+     * Handles permission request results for location and camera access.
+     *
+     * @param requestCode  The request code passed in {@link #requestPermissions(String[], int)}.
+     * @param permissions  The requested permissions.
+     * @param grantResults The grant results for the corresponding permissions.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -100,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Gets the user's location and creates an event report.
+     */
     private void getUserLocationFromFusedLocationClientAndCreateEvent() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_CODE);
@@ -116,11 +131,22 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Requests location permission and proceeds to create an event report.
+     *
+     * @param eventType The type of event being reported.
+     */
     private void getLocationWithPermissionsThenProceed(EventType eventType) {
         this.eventType = eventType;
         getUserLocationFromFusedLocationClientAndCreateEvent();
     }
 
+    /**
+     * Creates an event report using the user's location and selected event type.
+     * Optionally allows attaching an image to the report.
+     *
+     * @param eventType The type of event being reported.
+     */
     private void createEventReport(EventType eventType) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -151,6 +177,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Checks camera permissions and opens the camera if granted.
+     */
     private void checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_CODE);
@@ -159,6 +189,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Opens the device's camera to capture an image.
+     */
     @SuppressLint("QueryPermissionsNeeded")
     private void openCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -175,6 +208,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles the result of an activity, such as capturing an image from the camera.
+     *
+     * @param requestCode The request code passed to startActivityForResult.
+     * @param resultCode  The result code returned by the activity.
+     * @param data        An Intent containing the result data.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -188,6 +228,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sends the event report to the server using Retrofit.
+     *
+     * @param eventReport The event report to send.
+     */
     private void sendEventReport(EventReport eventReport) {
         RetrofitClient.getApiService().sendEventReport(eventReport).enqueue(new Callback<Void>() {
             @Override
@@ -207,6 +252,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Creates a file for saving the captured image.
+     *
+     * @return A new File object for the image.
+     * @throws IOException If an error occurs while creating the file.
+     */
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";

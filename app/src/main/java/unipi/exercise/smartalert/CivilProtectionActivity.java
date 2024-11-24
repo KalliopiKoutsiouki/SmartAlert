@@ -27,6 +27,11 @@ import unipi.exercise.smartalert.httpclient.RetrofitClient;
 import unipi.exercise.smartalert.model.Event;
 import unipi.exercise.smartalert.model.UserData;
 
+/**
+ * Activity for managing and displaying civil protection events.
+ * This activity allows users to view a list of important events, refresh the data,
+ * navigate to metrics, and log out of the application.
+ */
 public class CivilProtectionActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -72,7 +77,10 @@ public class CivilProtectionActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Fetches the event data from the server and updates the RecyclerView.
+     * This method uses the Retrofit client to get important events and handles translation based on locale.
+     */
     private void loadEventData() {
 
         RetrofitClient.getApiService().getImportantEvents().enqueue(new Callback<List<Event>>() {

@@ -28,6 +28,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * MetricsActivity displays grouped bar charts of event data retrieved from Firebase Firestore.
+ * Users can apply filters to display specific event types (e.g., Fire, Flood) and view metrics
+ * aggregated by month and year.
+ */
 public class MetricsActivity extends AppCompatActivity {
 
     int filtersCounter;
@@ -44,6 +49,10 @@ public class MetricsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
     }
 
+    /**
+     * Loads event data from Firestore and processes it to prepare for chart rendering.
+     * Event data is grouped by month and year, and filtered for the available event types.
+     */
     private void loadMetricsData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("pushed_events")
@@ -76,6 +85,12 @@ public class MetricsActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Sets up event type filters (e.g., Fire, Flood) and attaches listeners to update the chart
+     * when filters are toggled.
+     *
+     * @param eventData The event data used for rendering the chart.
+     */
     private void setupFilters(Map<String, Map<String, Integer>> eventData) {
         CheckBox filterFire = findViewById(R.id.filterFire);
         CheckBox filterFlood = findViewById(R.id.filterFlood);
@@ -105,6 +120,11 @@ public class MetricsActivity extends AppCompatActivity {
         filterTornado.setOnClickListener(filterListener);
     }
 
+    /**
+     * Counts the number of active filters selected by the user.
+     *
+     * @param checkBoxes Array of CheckBox objects representing event type filters.
+     */
     private void countFiltersSelected(CheckBox... checkBoxes) {
         filtersCounter = 0;
         for (CheckBox checkBox : checkBoxes) {
@@ -114,6 +134,11 @@ public class MetricsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Draws a grouped bar chart displaying the filtered event data.
+     *
+     * @param eventData The event data grouped by month and year.
+     */
     private void drawGroupedBarChart(Map<String, Map<String, Integer>> eventData) {
         BarChart barChart = findViewById(R.id.groupedBarChart);
 
@@ -247,6 +272,12 @@ public class MetricsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handles menu item selections, such as navigating back to the previous screen.
+     *
+     * @param item The selected menu item.
+     * @return True if the item was handled, false otherwise.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
