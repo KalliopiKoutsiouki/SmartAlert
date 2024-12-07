@@ -7,7 +7,9 @@ public class EventReport {
     private double latitude;
     private double longitude;
     private String timestamp;
+    private String comment;
     private String imageUri;
+
 
     public String getEventType() {
         return eventType;
@@ -48,6 +50,10 @@ public class EventReport {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public String getComment() {return comment;}
+
+    public void setComment(String comment) {this.comment = comment; }
 
     public String getImageUri() {
         return imageUri;

@@ -59,5 +59,8 @@
     <string name="account_already_exists">Ο λογαριασμός υπάρχει ήδη.</string>
     <string name="home">Αρχική</string>
     <string name="please_select_at_least_one_event">Παρακαλώ επιλέξτε τουλάχιστον ένα γεγονός</string>
-
+    <string name="add_comment">Σχόλιο</string>
+    <string name="comment_hint">Παρακαλώ προσθέστε σχόλιο</string>
+    <string name="next">Επόμενο</string>
+    <string name="cancel">Άκυρο</string>
 </resources>

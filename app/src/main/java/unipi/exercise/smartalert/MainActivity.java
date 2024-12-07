@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -160,15 +161,36 @@ public class MainActivity extends AppCompatActivity {
                 eventReport.setLongitude(userEventLocation.getLongitude());
                 eventReport.setTimestamp(timestamp);
 
-                new AlertDialog.Builder(this)
-                        .setTitle(getString(R.string.attach_image_title))
-                        .setMessage(getString(R.string.attach_image_message))
-                        .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-                            currentEventReport = eventReport;
-                            checkCameraPermission();
-                        })
-                        .setNegativeButton(getString(R.string.no), (dialog, which) -> sendEventReport(eventReport))
-                        .show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(getString(R.string.add_comment));
+
+                final EditText input = new EditText(this);
+                input.setHint(getString(R.string.comment_hint));
+                builder.setView(input);
+
+                builder.setPositiveButton(getString(R.string.next), (dialog, which) -> {
+                    // Save the user's comment in the EventReport object
+                    String userComment = input.getText().toString();
+                    eventReport.setComment(userComment); // Assuming `setComment` exists in `EventReport`
+
+                    // Proceed to ask about attaching an image
+                    new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.attach_image_title))
+                            .setMessage(getString(R.string.attach_image_message))
+                            .setPositiveButton(getString(R.string.yes), (dialog2, which2) -> {
+                                currentEventReport = eventReport;
+                                checkCameraPermission();
+                            })
+                            .setNegativeButton(getString(R.string.no), (dialog2, which2) -> sendEventReport(eventReport))
+                            .show();
+                });
+
+                builder.setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+                    // Cancel the event report creation process
+                    dialog.cancel();
+                });
+
+                builder.show();
             }
         } else {
             Log.e("Unauthorized User", "No user is currently logged in.");

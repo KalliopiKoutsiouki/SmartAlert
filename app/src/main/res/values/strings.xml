@@ -58,6 +58,8 @@
     <string name="account_already_exists">Account already exists.</string>
     <string name="home">Home</string>
     <string name="please_select_at_least_one_event">Please select at least one event</string>
-
-
+    <string name="add_comment">Comment</string>
+    <string name="comment_hint">Please add a comment</string>
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
 </resources>
